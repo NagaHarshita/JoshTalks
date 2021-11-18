@@ -1,0 +1,38 @@
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Video-Id</th>
+        <th>Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for video in videos %}
+        <tr>
+          <td>{{ video.video_id }}</td>
+          <td>{{ video.title }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  {% if videos.has_other_pages %}
+    <ul class="pagination">
+      {% if videos.has_previous %}
+        <li><a href="?page={{ videos.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+      {% endif %}
+      {% for i in videos.paginator.page_range %}
+        {% if videos.number == i %}
+          <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+          <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if videos.has_next %}
+        <li><a href="?page={{ videos.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+  {% endif %}
