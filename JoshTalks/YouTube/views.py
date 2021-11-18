@@ -32,7 +32,8 @@ from .tasks import GetVideos
 #     return HttpResponse(videos)
 
 def test(request):
-    GetVideos.delay()
+    videos = GetVideos.delay()
+    print(videos)
     return HttpResponse(200)
 
 
