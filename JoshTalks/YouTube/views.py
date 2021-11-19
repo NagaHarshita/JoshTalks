@@ -1,10 +1,5 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render
-import argparse
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
-from rest_framework import viewsets
-from rest_framework import permissions
 from .tasks import GetVideos
 from .models import Video
 from django.core.paginator import Paginator
@@ -17,21 +12,34 @@ def test(request):
     return HttpResponse(200)
     
 def fetchData(request):
-    videoData = Video.objects.all()
+    videoData = Video.objects.all().order_by('-published_time')
     page = request.GET.get('page', 1)
 
     paginator = Paginator(videoData, 10)
     try:
         videos = paginator.page(page)
-        print("hi")
     except PageNotAnInteger:
         videos = paginator.page(1)
-        print("hi1")
     except EmptyPage:
         videos = paginator.page(paginator.num_pages)
-        print("hi2")
 
     return render(request, 'videos.html', { 'videos': videos })
+
+def searchByTitle(request):
+    param = request.name
+    videoData = Video.objects.all()
+    for i in videoData:
+        if videoData['title'] == param:
+            return HttpResponse(200)
+    return HttpResponse(404)
+
+def searchByDesc(request):
+    param = request.name
+    videoData = Video.objects.all()
+    for i in videoData:
+        if videoData['description'] == param:
+            return HttpResponse(200)
+    return HttpResponse(404)
 
 
     # Schema of the returned JSON

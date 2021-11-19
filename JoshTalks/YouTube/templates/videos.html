@@ -1,38 +1,113 @@
-<table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Video-Id</th>
-        <th>Title</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for video in videos %}
-        <tr>
-          <td>{{ video.video_id }}</td>
-          <td>{{ video.title }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  
-  {% if videos.has_other_pages %}
-    <ul class="pagination">
-      {% if videos.has_previous %}
-        <li><a href="?page={{ videos.previous_page_number }}">&laquo;</a></li>
-      {% else %}
-        <li class="disabled"><span>&laquo;</span></li>
-      {% endif %}
-      {% for i in videos.paginator.page_range %}
-        {% if videos.number == i %}
-          <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-        {% else %}
-          <li><a href="?page={{ i }}">{{ i }}</a></li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>List of YouTube Videos</title>
+
+
+    <style>
+      #videos {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      #videos td, #videos th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      
+      #videos tr:nth-child(even){background-color: #f2f2f2;}
+      
+      #videos tr:hover {background-color: #ddd;}
+      
+      #videos th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04AA6D;
+        color: white;
+      }
+
+      ul li{
+        display: inline;
+      }
+
+      .pagination {
+        display: inline-block;
+      }
+
+      .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+      } 
+
+      .pagination a.active {
+        background-color: #4CAF50;
+        color: white;
+      }
+      </style>
+</head>
+<body>
+
+{% block content %}
+    <div class="container theme-showcase margin-top-navbar" role="main" style="margin-top: 50px">
+    <div class="row">
+        <div class="col-md-12"> 
+          <table class="table table-bordered" id='videos'>
+            <thead>
+              <tr>
+                <th>Video-Id</th>
+                <th>Channel Name</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Published time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for video in videos %}
+                <tr>
+                  <td>{{ video.video_id }}</td>
+                  <td>{{ video.channel_title }}</td>
+                  <td>{{ video.title }}</td>
+                  <td>{{ video.description }}</td>
+                  <td>{{video.published_time}} </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+    </div>
+
+    {% if videos.has_other_pages %}
+          <ul class="pagination">
+            {% if videos.has_previous %}
+              <li><a href="?page={{ videos.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+              <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in videos.paginator.page_range %}
+              {% if videos.number == i %}
+              <li><a href="?page={{ i }}" class="active">{{ i }}</a></li>
+              {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if videos.has_next %}
+              <li><a href="?page={{ videos.next_page_number }}">&raquo;</a></li>
+            {% else %}
+              <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+          </ul>
         {% endif %}
-      {% endfor %}
-      {% if videos.has_next %}
-        <li><a href="?page={{ videos.next_page_number }}">&raquo;</a></li>
-      {% else %}
-        <li class="disabled"><span>&raquo;</span></li>
-      {% endif %}
-    </ul>
-  {% endif %}
+
+  </div>
+
+
+
+  
+        
+        {% endblock %}
+      </body>
+</html>

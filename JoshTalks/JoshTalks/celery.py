@@ -18,8 +18,7 @@ app.config_from_object(settings, namespace='CELERY')
 app.conf.beat_schedule = {
     'fetch-videos-10':{
         'task': 'YouTube.tasks.GetVideos',
-        'schedule': 30.0,
-        # 'args': (16, 16)
+        'schedule': 100.0,
     } 
 }
 

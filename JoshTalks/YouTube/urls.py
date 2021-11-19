@@ -5,4 +5,6 @@ from . import views
 urlpatterns = [
     path('test/', views.test),
     path('videos/', views.fetchData, name='videos'),
+    path('searchTitle/', views.searchByTitle),
+    path('searchDesc/', views.searchByDesc),
 ]
