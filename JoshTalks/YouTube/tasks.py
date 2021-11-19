@@ -12,7 +12,7 @@ PREDEFINED_QUERY = "Music"
 def DeleteAll():
     Video.objects.all().delete()
 
-# Retriving all the video results with the particular page token
+# Retrieving all the video results with the particular page token
 def LoadPaginatedResults(youtube, nextToken):
     search_response = youtube.search().list(
         q=PREDEFINED_QUERY,
@@ -51,6 +51,7 @@ def GetVideos(self):
 
     nextPageToken = None 
     i=0
+    # limiting i to 3 because of API quota
     while i<3:
         page = LoadPaginatedResults(youtube, nextPageToken)
         videoIds.extend(CollectData(page))

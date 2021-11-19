@@ -18,10 +18,13 @@ def test(request):
 # GET API that returns all the video-data in the descending order of published-time with pagination
 class VideoDataViews(APIView, LimitOffsetPagination):
     def get(self, request):
-        items = Video.objects.all().order_by('-published_time')
-        results = self.paginate_queryset(items, request, view=self)
-        serializer = VideoItemSerializer(results, many=True)
-        return self.get_paginated_response(serializer.data)
+        try:
+            items = Video.objects.all().order_by('-published_time')
+            results = self.paginate_queryset(items, request, view=self)
+            serializer = VideoItemSerializer(results, many=True)
+            return self.get_paginated_response(serializer.data)
+        except:
+            return HttpResponse("Can't find videos data")
 
 # SEARCH API that returns video-data whose either title or description contains the query string
 class SearchVideos(generics.ListAPIView):
@@ -32,13 +35,16 @@ class SearchVideos(generics.ListAPIView):
         the user as determined by the username portion of the URL.
         """
         if self.request.method == 'GET':
-            title = self.request.GET.get('title', None)
-            videos = Video.objects.all().values()
-            results = []
-            for video in videos:
-                if title in video['title'] or title in video['description']:
-                    results.append(video)
-            return results
+            try:
+                query = self.request.GET.get('query', None)
+                videos = Video.objects.all().values()
+                results = []
+                for video in videos:
+                    if query in video['title'] or query in video['description']:
+                        results.append(video)
+                return results
+            except:
+                return HttpResponse("Can't get the requested data")
 
 # Used to fetch all the video-data in the descending order of published-time with pagination
 # Used in the ui

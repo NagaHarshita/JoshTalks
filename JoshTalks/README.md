@@ -37,7 +37,8 @@ celery -A JoshTalks beat -l INFO
 
 - Navigate to 'http://127.0.0.1:8000/videos/' to view the user interface with fetched videos in a paginated manner 
 - Perform a get request to "http://127.0.0.1:8000/youtube/api/videos/" url then you can get the list of all the videos
-- Perform a get request to 'http://127.0.0.1:8000/youtube/api/search/?title=Autumn%20Friday' to enter your query and get the results
+- Perform a get request to 'http://127.0.0.1:8000/youtube/api/search/?query=Autumn%20Friday' with your query and get the results
+- APIs can also be tested in POSTMAN or INSOMNIA
 
 Please check the django admin to view the changing objects inside Videos for every 300sec. 
 
