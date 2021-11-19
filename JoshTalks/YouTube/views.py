@@ -24,7 +24,7 @@ class VideoDataViews(APIView, LimitOffsetPagination):
             serializer = VideoItemSerializer(results, many=True)
             return self.get_paginated_response(serializer.data)
         except:
-            return HttpResponse("Can't find videos data")
+            return []
 
 # SEARCH API that returns video-data whose either title or description contains the query string
 class SearchVideos(generics.ListAPIView):
@@ -44,7 +44,7 @@ class SearchVideos(generics.ListAPIView):
                         results.append(video)
                 return results
             except:
-                return HttpResponse("Can't get the requested data")
+                return []
 
 # Used to fetch all the video-data in the descending order of published-time with pagination
 # Used in the ui

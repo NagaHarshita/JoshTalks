@@ -40,6 +40,6 @@ celery -A JoshTalks beat -l INFO
 - Perform a get request to 'http://127.0.0.1:8000/youtube/api/search/?query=Autumn%20Friday' with your query and get the results
 - APIs can also be tested in POSTMAN or INSOMNIA
 
-Please check the django admin to view the changing objects inside Videos for every 300sec. 
+Please check the django admin to view the changing objects inside Videos for every 30sec. 
 
 Make sure to terminate the celery-beats command as the quota for youtube may exceed.

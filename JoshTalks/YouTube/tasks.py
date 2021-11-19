@@ -3,7 +3,7 @@ from googleapiclient.discovery import build
 from .models import Video
 
 
-DEVELOPER_KEY = "AIzaSyDUlOxGZ5WZZ-2poZfIaVjQRGNLnh_uJsI"
+DEVELOPER_KEY = "AIzaSyBe586dF6EIjzdxbduECZlLziccCocMIPc"
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 PREDEFINED_QUERY = "Music"
@@ -17,6 +17,7 @@ def LoadPaginatedResults(youtube, nextToken):
     search_response = youtube.search().list(
         q=PREDEFINED_QUERY,
         part='id,snippet',
+        maxResults=20,
         pageToken = nextToken,
         type='video',
         order='date',
@@ -52,7 +53,7 @@ def GetVideos(self):
     nextPageToken = None 
     i=0
     # limiting i to 3 because of API quota
-    while i<3:
+    while i<4:
         page = LoadPaginatedResults(youtube, nextPageToken)
         videoIds.extend(CollectData(page))
         nextPageToken = page.get("nextPageToken")
