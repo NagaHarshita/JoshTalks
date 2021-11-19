@@ -41,13 +41,10 @@ def CollectData(search_response):
 
 @shared_task(bind=True)
 def GetVideos(self):
-
     DeleteAll()
-
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
-
     videoIds = []
-
+    
     nextPageToken = None 
     i=0
     while i<3:

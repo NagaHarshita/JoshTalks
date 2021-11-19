@@ -32,10 +32,6 @@
         display: inline;
       }
 
-      .pagination {
-        display: inline-block;
-      }
-
       .pagination a {
         color: black;
         float: left;
@@ -52,40 +48,38 @@
 <body>
 
 {% block content %}
-    <div class="container theme-showcase margin-top-navbar" role="main" style="margin-top: 50px">
-    <div class="row">
-        <div class="col-md-12"> 
-          <table class="table table-bordered" id='videos'>
-            <thead>
-              <tr>
-                <th>Video-Id</th>
-                <th>Channel Name</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Published time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for video in videos %}
+    <div class="container theme-showcase margin-top-navbar" role="main">
+      <div class="row">
+          <div class="col-md-12"> 
+            <table class="table table-bordered" id='videos'>
+              <thead>
                 <tr>
-                  <td>{{ video.video_id }}</td>
-                  <td>{{ video.channel_title }}</td>
-                  <td>{{ video.title }}</td>
-                  <td>{{ video.description }}</td>
-                  <td>{{video.published_time}} </td>
+                  <th>Video-Id</th>
+                  <th>Channel Name</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Published time</th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-    </div>
-    </div>
+              </thead>
+              <tbody>
+                {% for video in videos %}
+                  <tr>
+                    <td>{{ video.video_id }}</td>
+                    <td>{{ video.channel_title }}</td>
+                    <td>{{ video.title }}</td>
+                    <td>{{ video.description }}</td>
+                    <td>{{video.published_time}} </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+      </div>
 
-    {% if videos.has_other_pages %}
+        {% if videos.has_other_pages %}
           <ul class="pagination">
             {% if videos.has_previous %}
               <li><a href="?page={{ videos.previous_page_number }}">&laquo;</a></li>
-            {% else %}
-              <li class="disabled"><span>&laquo;</span></li>
             {% endif %}
             {% for i in videos.paginator.page_range %}
               {% if videos.number == i %}
@@ -102,12 +96,9 @@
           </ul>
         {% endif %}
 
-  </div>
+    </div>
 
+{% endblock %}
 
-
-  
-        
-        {% endblock %}
-      </body>
+</body>
 </html>

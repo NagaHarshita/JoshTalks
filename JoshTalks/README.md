@@ -33,5 +33,6 @@ celery -A JoshTalks beat -l INFO
 ### API testing 
 
 - Navigate to 'videos/' to view the fetched videos in a paginated manner 
-- Navigate to 'search/' to enter your query and get the answer
+- Perform a get request to "http://127.0.0.1:8000/youtube/api/videos/" url then you can get the list of all the videos
+- Navigate to 'http://127.0.0.1:8000/youtube/api/search/?title=Autumn%20Friday' to enter your query and get the results
 
