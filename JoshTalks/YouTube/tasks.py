@@ -8,10 +8,11 @@ YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 PREDEFINED_QUERY = "Music"
 
+# deleting all the objects inside Video model
 def DeleteAll():
     Video.objects.all().delete()
 
-
+# Retriving all the video results with the particular page token
 def LoadPaginatedResults(youtube, nextToken):
     search_response = youtube.search().list(
         q=PREDEFINED_QUERY,
@@ -24,6 +25,7 @@ def LoadPaginatedResults(youtube, nextToken):
 
     return search_response
 
+# Storing the data in the django database
 def CollectData(search_response):
     videoIds = []
     for search_result in search_response.get('items', []):
@@ -39,12 +41,14 @@ def CollectData(search_response):
 
     return videoIds
 
+# Celery task to delete all the existing objects inside Video and add the new results to the Video 
+# Results are fetched from Youtube Search List API
 @shared_task(bind=True)
 def GetVideos(self):
     DeleteAll()
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
     videoIds = []
-    
+
     nextPageToken = None 
     i=0
     while i<3:

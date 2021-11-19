@@ -6,23 +6,16 @@ from django.core.paginator import Paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import VideoItemSerializer
 from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics
 from rest_framework.pagination import LimitOffsetPagination
 
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 1000
-
-
+# testing celery
 def test(request):
     videos = GetVideos.delay()
     print(videos)
     return HttpResponse(200)
 
+# GET API that returns all the video-data in the descending order of published-time with pagination
 class VideoDataViews(APIView, LimitOffsetPagination):
     def get(self, request):
         items = Video.objects.all().order_by('-published_time')
@@ -30,6 +23,7 @@ class VideoDataViews(APIView, LimitOffsetPagination):
         serializer = VideoItemSerializer(results, many=True)
         return self.get_paginated_response(serializer.data)
 
+# SEARCH API that returns video-data whose either title or description contains the query string
 class SearchVideos(generics.ListAPIView):
     serializer_class = VideoItemSerializer
     def get_queryset(self):
@@ -46,7 +40,8 @@ class SearchVideos(generics.ListAPIView):
                     results.append(video)
             return results
 
-    
+# Used to fetch all the video-data in the descending order of published-time with pagination
+# Used in the ui
 def fetchData(request):
     videoData = Video.objects.all().order_by('-published_time')
     page = request.GET.get('page', 1)

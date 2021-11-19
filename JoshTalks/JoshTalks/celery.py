@@ -3,7 +3,6 @@ import os
 
 from celery import Celery
 from django.conf import settings
-from celery.schedules import crontab
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'JoshTalks.settings')
 
@@ -18,7 +17,7 @@ app.config_from_object(settings, namespace='CELERY')
 app.conf.beat_schedule = {
     'fetch-videos-10':{
         'task': 'YouTube.tasks.GetVideos',
-        'schedule': 100.0,
+        'schedule': 300.0,
     } 
 }
 

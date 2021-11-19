@@ -1,7 +1,7 @@
 ## Youtube Videos - Backend Task 
 
 
-### Installing necessary libraies and running the server
+### Installing necessary libraries and running the server
 
 - Create the virtual environment 
 ```
@@ -20,9 +20,12 @@ python3 manage.py runserver
 ```
 
 - Start redis 
-redis-cli ping should respond PONG in the terminal
+```
+redis-cli ping
+-> PONG
+```
 
-- Start celery and celery-beats in different terminals for periodic tasks
+- Start celery and celery-beats in different terminals for running periodic tasks in the background
 ```
 celery -A JoshTalks.celery worker --pool=solo -l info 
 ```
@@ -30,9 +33,12 @@ celery -A JoshTalks.celery worker --pool=solo -l info
 celery -A JoshTalks beat -l INFO
 ```
 
-### API testing 
+### API testing
 
-- Navigate to 'videos/' to view the fetched videos in a paginated manner 
+- Navigate to 'http://127.0.0.1:8000/videos/' to view the user interface with fetched videos in a paginated manner 
 - Perform a get request to "http://127.0.0.1:8000/youtube/api/videos/" url then you can get the list of all the videos
-- Navigate to 'http://127.0.0.1:8000/youtube/api/search/?title=Autumn%20Friday' to enter your query and get the results
+- Perform a get request to 'http://127.0.0.1:8000/youtube/api/search/?title=Autumn%20Friday' to enter your query and get the results
 
+Please check the django admin to view the changing objects inside Videos for every 300sec. 
+
+Make sure to terminate the celery-beats command as the quota for youtube may exceed.
